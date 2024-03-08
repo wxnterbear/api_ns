@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "827682ac-a42d-471d-a259-d79292226152",
+		"name": "Solicitudes estudiantes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33464587"
+	},
+	"item": [
+		{
+			"name": "estudiante 15",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1\r",
+							"pm.test(\"El tiempo de respuesta es menor a 10 segundos\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(30);\r",
+							"});\r",
+							"\r",
+							"//2\r",
+							"pm.test(\"El código del estado de la respuesta es de 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"//3\r",
+							"pm.test(\"Los campos obligatorios no están vacíos\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('id').that.is.not.null;\r",
+							"    pm.expect(responseData).to.have.property('name').that.is.not.null;\r",
+							"    pm.expect(responseData).to.have.property('lastname').that.is.not.null;\r",
+							"    pm.expect(responseData).to.have.property('age').that.is.not.null;\r",
+							"});\r",
+							"\r",
+							"//4\r",
+							"pm.test(\"El campo edad es un entero no negativo\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.age).to.be.a('number').and.to.be.at.least(0);\r",
+							"});\r",
+							"\r",
+							"//5\r",
+							"pm.test(\"Los campos de nombre y apellido no está vacíos\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+							"    pm.expect(responseData.lastname).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Lastname should not be empty\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/Estudiante/15/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Estudiante",
+						"15",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eliminar estudiante 23",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//1\r",
+							"pm.test(\"La eliminación fue exitosa\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(204);\r",
+							"});\r",
+							"\r",
+							"//2\r",
+							"pm.test(\"El cuerpo de la respuesta sea nulo\", function () {\r",
+							"    pm.expect(pm.response.text()).to.equal('');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/Estudiante/23/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Estudiante",
+						"23",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualizar estudiante 26",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Contenga todos los campos esperados', function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData).to.have.property('id');",
+							"    pm.expect(responseData).to.have.property('name');",
+							"    pm.expect(responseData).to.have.property('lastname');",
+							"    pm.expect(responseData).to.have.property('age');",
+							"})",
+							"",
+							"//2",
+							"pm.test(\"Se ha actualizado correctamente\", function () {",
+							"    const updatedData = JSON.parse(pm.request.body);",
+							"    const responseData = pm.response.json(); ",
+							"",
+							"    pm.expect(responseData.name).to.equal(updatedData.name);",
+							"    pm.expect(responseData.lastname).to.equal(updatedData.lastname);",
+							"    pm.expect(responseData.age).to.equal(updatedData.age);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"agua\",\r\n        \"lastname\": \"cate\",\r\n        \"age\": 11\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/Estudiante/26/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Estudiante",
+						"26",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear estudiante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//1\r",
+							"pm.test(\"El código de estado de la respuesta es 201 Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"//2\r",
+							"pm.test(\"La respuesta contiene un ID válido\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.id).to.be.a('number');\r",
+							"    pm.expect(responseData.id).to.be.at.least(1);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"sero\",\r\n        \"lastname\": \"ronina\",\r\n        \"age\": 17\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/Estudiante/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Estudiante",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "opciones configuración",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//1\r",
+							"pm.test(\"El código de estado es 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/Estudiante/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Estudiante",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
